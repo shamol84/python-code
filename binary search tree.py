@@ -1,3 +1,4 @@
+## sourced from stackexchange.com
 class Node:
     def __init__(self, val):
         self.l_child = None

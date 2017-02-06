@@ -4,21 +4,27 @@ Created on Wed Sep 23 12:30:44 2015
 
 @author: mah228
 """
+##code for support vector machine for building energy ##
 
 import numpy as np
 import pandas as pd
 ##python script for building energy
+## load train data##
 data = pd.read_csv("H:/building-energy-paper/elsarticle/elsarticle/sjmr11.csv")
+
+##preprocess train data
+## generate temperature difference
 data['diff.1hr']=data['Temp']-data['temp.1hr']
 data['diff.2hr']=data['Temp']-data['temp.2hr']
+
+##generate RH and temp multiplication column
 data['RH.Temp']=data['RH']*data['Temp']
 
+##skc= sky condition form NOAA 
 skc = data['SKC']
-#skc=get_dummies(skc)
+
+##create dummy variables from categorical variables
 skc=pd.get_dummies(skc)
-#data1 = merge(data,skc,how='outer')
-#data1 = pd.merge(data,skc,how='outer')
-#data1 = pd.concat(data,skc,axis=1)
 data1 = pd.concat([data,skc],axis=1)
 #day.night = data['Night.Day']
 day = data['Night.Day']
@@ -44,24 +50,10 @@ data1 = pd.concat([data1,month],axis=1)
 day1=data['Day.of.Week']
 day1 = pd.get_dummies(day1)
 data1 = pd.concat([data1,day1],axis=1)
-## python svm with all variables
-from sklearn.cross_validation import train_test_split
-from sklearn.grid_search import GridSearchCV
-from sklearn.grid_search import ParameterGrid
-from sklearn.svm import SVR
-from sklearn import svm
 
-# Set the parameters by cross-validation
-tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
-                     'C': [1, 10, 100, 1000]},
-                    {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
-                    
-scores = ['precision', 'recall']     
-
-grid = [ {'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],'C': [1, 10, 100, 1000]}]
-           
 #######################
 ############
+### load test data ##
 data2 = pd.read_csv("H:/building-energy-paper/elsarticle/elsarticle/sjmr-test.csv")
 data2['diff.1hr']=data['Temp']-data['temp.1hr']
 data2['diff.2hr']=data['Temp']-data['temp.2hr']
@@ -99,7 +91,7 @@ data3 = pd.concat([data3,month],axis=1)
 day2=data3['Day.of.Week']
 day2 = pd.get_dummies(day2)
 data3 = pd.concat([data3,day2],axis=1) 
-#############           
+         
 #variables = temp + BKN+CLR+OBS+OVC+SCT+RH+T.MAX+T.MIN.PREV+DewP+RH
 #data['diff.1hr']=data['Temp']-data['temp.1hr']
 #data['diff.2hr']=data['Temp']-data['temp.2hr']
@@ -118,6 +110,27 @@ test_np=test.as_matrix()
 energy = data1['Energy'].as_matrix()
 
 energy_test=data3['Energy'].as_matrix()
+
+## python svm with all variables
+
+## required library/package
+from sklearn.cross_validation import train_test_split
+from sklearn.grid_search import GridSearchCV
+from sklearn.grid_search import ParameterGrid
+from sklearn.svm import SVR
+from sklearn import svm
+
+# Set the parameters by cross-validation
+tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
+                     'C': [1, 10, 100, 1000]},
+                    {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
+                    
+scores = ['precision', 'recall']     
+
+grid = [ {'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],'C': [1, 10, 100, 1000]}]
+           
+
+
 
 #######################
 svr=SVR(epsilon=0)

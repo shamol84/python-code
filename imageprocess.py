@@ -5,7 +5,10 @@ Created on Mon Sep 21 10:11:28 2015
 @author: mah228
 """
 
+###test code for image classification ##
+
 ### image split
+## 
 ## install PIL in conda: conda install PIL
 
 import Image

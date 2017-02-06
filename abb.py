@@ -3,8 +3,10 @@
 Created on Tue Sep 15 12:34:28 2015
 
 @author: mah228
-"""
 
+
+"""
+##test code for automate ABB data ingestion ##
 serial = pd.unique(data.sn.values.ravel())
 #data1=data[data['sn']==serial[0]]
 #data.rename(columns=lambda x: str(serial[1])+x[0:], inplace=True)

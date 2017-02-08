@@ -1,10 +1,13 @@
-## sourced from stackexchange.com
+## Reference:stackexchange.com
+
+### define class structure
 class Node:
     def __init__(self, val):
         self.l_child = None
         self.r_child = None
         self.data = val
 
+## functions
 def binary_insert(root, node):
     if root is None:
         root = node
@@ -35,7 +38,7 @@ def pre_order_print(root):
     pre_order_print(root.r_child)    
     
     
-    
+### test code    
 r = Node(3)
 binary_insert(r, Node(7))
 binary_insert(r, Node(1))
